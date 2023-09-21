@@ -93,12 +93,26 @@ public class Main {
         return result.reverse().toString();
     }
 
-    public static int countVariants(int stearsCount){
-        if(stearsCount == 0 || stearsCount == 1){
+    public static int countVariants1(int n){
+        if(n == 0 || n == 1){
             return 1;
         }
 
-        return countVariants(stearsCount - 1) + countVariants(stearsCount - 2);
+        return countVariants1(n - 1) + countVariants1(n - 2);
+    }
+
+    public static int countVariants2(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+
+        int[] dp = new int[n+1];
+        dp[0] = dp[1] = 1;
+
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        return dp[n];
     }
 
     public static void main(String[] args) {
@@ -127,8 +141,10 @@ public class Main {
 
         // Test countVariants
         int stairsCount = 4;
-        int variants = countVariants(stairsCount);
-        System.out.println("Number of Variants for " + stairsCount + " stairs: " + variants);
+        int variants1 = countVariants1(stairsCount);
+        int variants2 = countVariants2(stairsCount);
+        System.out.println("(rec) Number of Variants for " + stairsCount + " stairs: " + variants1);
+        System.out.println("(dp) Number of Variants for " + stairsCount + " stairs: " + variants2);
 
         //Test for MyStructure
         MyStructure<Integer> myIntStructure = new MyStructure<>();
